@@ -2,7 +2,8 @@ import { fade } from "@material-ui/core/styles";
 
 export default theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginBottom: theme.spacing(10)
   },
   search: {
     position: "relative",

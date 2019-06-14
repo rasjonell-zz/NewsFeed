@@ -1,44 +1,33 @@
-import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { NewsContext } from "contexts/newsContext";
 import InfiniteScroll from "react-infinite-scroller";
 
 export default () => {
-  const [news, setNews] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-
-  const loadMore = async page => {
-    const url = new URL("https://content.guardianapis.com/search");
-    const params = [
-      ["api-key", process.env.REACT_APP_API_KEY],
-      ["page", page],
-      ["page-size", 5],
-      ["show-fields", "headline,thumbnail"]
-    ];
-    url.search = new URLSearchParams(params);
-
-    const result = await fetch(url);
-    const {
-      response: { results }
-    } = await result.json();
-
-    setNews([...news].concat(results));
-  };
-
-  console.log(news);
+  const { news, loadNews, hasMore } = useContext(NewsContext);
 
   return (
     <InfiniteScroll
       pageStart={0}
       hasMore={hasMore}
-      loadMore={loadMore}
-      loader={<h2>Loading..</h2>}
+      loadMore={loadNews}
+      loader={<h2 key="loading">Loading...</h2>}
     >
       <div>
         {news.map(item => (
-          <>
+          <div key={item.id}>
             <h1>{item.fields.headline}</h1>
-            <img src={item.fields.thumbnail} />
-          </>
+            <h3>Category: {item.pillarName}</h3>
+            <img
+              src={
+                item.fields.thumbnail
+                  ? item.fields.thumbnail
+                  : `${process.env.PUBLIC_URL}/images/not_found.jpg`
+              }
+              alt={item.fields.headline}
+            />
+            <Link to={item.id}>Learn More</Link>
+          </div>
         ))}
       </div>
     </InfiniteScroll>
