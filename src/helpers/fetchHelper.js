@@ -3,7 +3,7 @@ export const fetchNews = async (page = 1, query = "") => {
   const params = [
     ["q", query],
     ["page", page],
-    ["page-size", 5],
+    ["page-size", 6],
     ["show-fields", "all"],
     ["api-key", process.env.REACT_APP_API_KEY]
   ];
@@ -17,10 +17,14 @@ export const fetchNews = async (page = 1, query = "") => {
   return results;
 };
 
-export const fetchSelected = async ({ section, year, month, day, title }) => {
-  const url = new URL(
-    `https://content.guardianapis.com/${section}/${year}/${month}/${day}/${title}`
-  );
+export const fetchSelected = async id => {
+  let preUrl =
+    typeof id === "object"
+      ? `${id.section}/${id.year}/${id.month}/${id.day}/${
+          id.title
+        }`
+      : id;
+  const url = new URL(`https://content.guardianapis.com/${preUrl}`);
 
   const params = [
     ["api-key", process.env.REACT_APP_API_KEY],
@@ -35,7 +39,6 @@ export const fetchSelected = async ({ section, year, month, day, title }) => {
     } = await result.json();
     return [status, content];
   } catch (error) {
-    return ['error', null]
+    return ["error", null];
   }
-
 };

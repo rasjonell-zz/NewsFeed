@@ -1,35 +1,43 @@
-import { Link } from "react-router-dom";
+import GridContainer from "./grid";
+import useStyles from "hooks/useStyles";
 import React, { useContext } from "react";
+import SnackBar from "components/SnackBar";
+import Divider from "@material-ui/core/Divider";
+import PinnedPanel from "components/PinnedPanel";
 import { NewsContext } from "contexts/newsContext";
 import InfiniteScroll from "react-infinite-scroller";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import styles from "./styles";
 
 export default () => {
-  const { news, loadNews, hasMore } = useContext(NewsContext);
+  const classes = useStyles(styles);
+  const { news, loadNews, hasMore, latest } = useContext(NewsContext);
 
   return (
-    <InfiniteScroll
-      pageStart={0}
-      hasMore={hasMore}
-      loadMore={loadNews}
-      loader={<h2 key="loading">Loading...</h2>}
-    >
-      <div>
-        {news.map(item => (
-          <div key={item.id}>
-            <h1>{item.fields.headline}</h1>
-            <h3>Category: {item.pillarName}</h3>
-            <img
-              src={
-                item.fields.thumbnail
-                  ? item.fields.thumbnail
-                  : `${process.env.PUBLIC_URL}/images/not_found.jpg`
-              }
-              alt={item.fields.headline}
-            />
-            <Link to={item.id}>Learn More</Link>
+    <div>
+      <PinnedPanel />
+      {!!latest.length && (
+        <div>
+          <Typography variant="h5">Latest News</Typography>
+          <GridContainer classes={classes} news={latest} />
+          <Divider className={classes.divider} />
+        </div>
+      )}
+      <InfiniteScroll
+        pageStart={0}
+        hasMore={hasMore}
+        loadMore={loadNews}
+        loader={
+          <div key="loader" className={classes.loading}>
+            <CircularProgress />
           </div>
-        ))}
-      </div>
-    </InfiniteScroll>
+        }
+      >
+        <GridContainer classes={classes} news={news} />
+      </InfiniteScroll>
+      <SnackBar />
+    </div>
   );
 };

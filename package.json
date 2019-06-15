@@ -6,12 +6,15 @@
     "@material-ui/core": "^4.1.1",
     "@material-ui/icons": "^4.2.0",
     "history": "^4.9.0",
+    "lodash": "^4.17.11",
     "react": "^16.8.6",
+    "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6",
     "react-infinite-scroller": "^1.2.4",
     "react-kawaii": "^0.14.4",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-truncate-string": "^1.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

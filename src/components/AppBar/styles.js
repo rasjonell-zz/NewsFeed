@@ -13,7 +13,7 @@ export default theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
     margin: "auto",
-    width: "90vw",
+    width: "75vw",
     [theme.breakpoints.up("md")]: {
       width: "30vw"
     }
@@ -33,9 +33,14 @@ export default theme => ({
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create("width"),
-    width: "80vw",
+    width: "60vw",
     [theme.breakpoints.up("md")]: {
       width: "27vw"
     }
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 5,
+    color: "white"
   }
 });
